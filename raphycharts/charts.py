@@ -27,8 +27,6 @@ class RaphyChart(object):
 
 
 class LineObject(object):
-    data = []
-    options = {}
 
     def __init__(self, data=[], options={}, x_axis_type="numeric",
         y_axis_type="numeric", tooltip_date_format="%m/%d",
@@ -94,7 +92,6 @@ class LineObject(object):
 class RaphyLineChart(RaphyChart):
 
     chart_type = "linechart"
-    lines = []
     
     def __init__(self, chart_id="raphy-linechart", options={},
         width=500, height=200,
@@ -108,6 +105,7 @@ class RaphyLineChart(RaphyChart):
         self.tooltip_date_format = tooltip_date_format
         self.custom_tooltip = custom_tooltip
         self.template = template
+        self.lines = []
 
     def add_line(self, data=[], options={},
             tooltip_date_format=None,
