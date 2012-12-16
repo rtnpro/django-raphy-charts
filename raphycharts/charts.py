@@ -18,9 +18,12 @@ class RaphyChart(object):
 
     chart_type = "generic"
 
-    def __init__(self, chart_id="raphy-generic-chart", options={}):
+    def __init__(self, chart_id="raphy-generic-chart", options={},
+        width=500, height=200):
         self.chart_id = chart_id
         self.options = options
+        self.width = width
+        self.height = height
 
 
 class LineObject(object):
@@ -94,10 +97,12 @@ class RaphyLineChart(RaphyChart):
     lines = []
     
     def __init__(self, chart_id="raphy-linechart", options={},
+        width=500, height=200,
         x_axis_type='numeric', y_axis_type='numeric',
         tooltip_date_format="%m/%d", custom_tooltip=False,
         template="raphycharts/linechart.html"):
-        super(RaphyLineChart, self).__init__(chart_id, options)
+        super(RaphyLineChart, self).__init__(chart_id, options, width=width,
+            height=height)
         self.x_axis_type = x_axis_type
         self.y_axis_type = y_axis_type
         self.tooltip_date_format = tooltip_date_format
@@ -137,6 +142,8 @@ class RaphyLineChart(RaphyChart):
         template_obj = get_template(self.template)
         context = Context({
             "chart_data": mark_safe(self.get_chart_json()),
-            "chart_id": self.chart_id
+            "chart_id": self.chart_id,
+            'chart_width': self.width,
+            'chart_height': self.height
         })
         return template_obj.render(context)
