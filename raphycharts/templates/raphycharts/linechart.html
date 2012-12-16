@@ -1,0 +1,39 @@
+<div class="raphycharts-container">
+    <script src="https://raw.github.com/DmitryBaranovskiy/raphael/master/raphael-min.js"></script>
+    <script src="https://raw.github.com/jcarver989/raphy-charts/master/compiled/charts.min.js"></script>
+    <script type="text/javascript">
+      function create_date(d) {
+        return new Date(d.year, d.month, d.day, d.hour);
+      };
+
+      function process_line_data(line_data){
+        if (line_data.x_axis_type == 'date'){
+          $(line_data.data).each(function(index, value){
+            line_data.data[index][0] = create_date(value[0]);
+          });
+        }
+        if (line_data.y_axis_type == 'date'){
+          $(line_data.data).each(function(index, value){
+            line_data.data[index][1] = create_date(value[1]);
+          });
+        }
+        return line_data.data;
+      }
+
+      loadChart = function (){
+        var chartData = {{ chart_data }};
+        var chartId = "{{ chart_id }}";
+        var chart = new Charts.LineChart(chartId, chartData.options);
+        $(chartData.lines).each(function(index, value){
+          chart.add_line({data: process_line_data(value), options: value.options});
+        });
+        chart.draw();
+        return chart;
+     }
+
+     $(function(){
+        charts = loadChart();
+     });
+    </script>
+    <div id="{{ chart_id }}" style='width: 800px; height: 300px;'></div>
+</div>
